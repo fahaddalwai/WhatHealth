@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Web App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .upload-section, .chat-section {
+            margin: 20px auto;
+            max-width: 600px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .chat-box {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            height: 300px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+        .chat-message {
+            margin: 5px 0;
+        }
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>RAG Web App</h1>
+    <h2>Upload Your Data and Chat</h2>
+
+    <!-- File Upload Section -->
+    <div class="upload-section">
+        <h3>Upload File</h3>
+        <form id="upload-form">
+            <input type="file" id="file-input" />
+            <button type="submit">Upload</button>
+        </form>
+        <p id="upload-status"></p>
+    </div>
+
+    <!-- Chat Section -->
+    <div class="chat-section">
+        <h3>Chat Interface</h3>
+        <div id="chat-box" class="chat-box"></div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Ask a question..." />
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Upload File
+        document.getElementById('upload-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const fileInput = document.getElementById('file-input');
+            const status = document.getElementById('upload-status');
+            status.textContent = "Uploading file...";
+            
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            try {
+                const response = await fetch('/api/upload/', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    status.textContent = data.message;
+                } else {
+                    status.textContent = `Error: ${data.detail || 'Failed to upload file'}`;
+                }
+            } catch (error) {
+                status.textContent = `Error: ${error.message}`;
+            }
+        };
+
+        // Chat with API
+        document.getElementById('send-btn').onclick = async () => {
+            const chatBox = document.getElementById('chat-box');
+            const userInput = document.getElementById('user-input');
+
+            const userMessage = userInput.value.trim();
+            if (!userMessage) return;
+
+            // Display user message
+            chatBox.innerHTML += `<div class="chat-message"><strong>You:</strong> ${userMessage}</div>`;
+
+            try {
+                const response = await fetch('/api/chat/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query: userMessage }),
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    chatBox.innerHTML += `<div class="chat-message"><strong>Bot:</strong> ${data.response}</div>`;
+                } else {
+                    chatBox.innerHTML += `<div class="chat-message"><strong>Bot:</strong> Error fetching response</div>`;
+                }
+            } catch (error) {
+                chatBox.innerHTML += `<div class="chat-message"><strong>Bot:</strong> Error: ${error.message}</div>`;
+            }
+
+            // Clear input field
+            userInput.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the latest message
+        };
+    </script>
+</body>
+</html>
