@@ -23,8 +23,35 @@ class FileUploadView(APIView):
         return Response({"message": "File ingested successfully."})
 
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 class ChatView(APIView):
     def post(self, request, *args, **kwargs):
-        query = request.data.get("query")
-        response = vectorstore.retrieve(query)
-        return Response({"response": "I know my api endpoint is working atleast"})
+        try:
+            query = request.data.get("query")
+            chat_history = request.data.get("chat_history", [])  # Default to empty list
+
+            if not query:
+                return Response({"detail": "Query is required."}, status=400)
+
+            # Log inputs for debugging
+            logger.debug(f"Query received: {query}")
+            logger.debug(f"Chat history: {chat_history}")
+
+            chatbot_response, updated_chat_history = vectorstore.run_chatbot(query, chat_history)
+
+            # Log outputs for debugging
+            logger.debug(f"Chatbot response: {chatbot_response}")
+            logger.debug(f"Updated chat history: {updated_chat_history}")
+
+            return Response({
+                "response": chatbot_response,
+                "chat_history": updated_chat_history,
+            })
+
+        except Exception as e:
+            logger.error(f"Error in ChatView: {str(e)}", exc_info=True)
+            return Response({"detail": str(e)}, status=500)
+
