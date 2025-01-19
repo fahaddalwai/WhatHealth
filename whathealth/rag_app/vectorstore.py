@@ -73,15 +73,6 @@ class Vectorstore:
 
 
     def retrieve(self, query):
-        """
-        Retrieves document chunks based on the given query.
-
-        Parameters:
-        query (str): The query to retrieve document chunks for.
-
-        Returns:
-        List[Dict[str, str]]: A list of dictionaries representing the retrieved document chunks.
-        """
         print(f"Retrieving for query: {query}")
 
         # Dense retrieval
@@ -89,12 +80,14 @@ class Vectorstore:
             texts=[query], model="embed-english-v3.0", input_type="search_query"
         ).embeddings
 
-         # Safeguard: ensure k doesn't exceed the number of indexed embeddings
+        # Safeguard: ensure k doesn't exceed the number of indexed embeddings
         k = min(self.retrieve_top_k, self.idx.get_current_count())
         if k == 0:
             raise RuntimeError("No indexed elements available for retrieval.")
 
-        doc_ids = self.idx.knn_query(query_emb, k=k)[0][0]
+        # Properly extract document IDs
+        labels, _ = self.idx.knn_query(query_emb, k=k)
+        doc_ids = labels[0]  # Now a list/array of document indices
 
         # Reranking
         rank_fields = ["title", "text"]
@@ -115,19 +108,30 @@ class Vectorstore:
                 {
                     "title": self.docs[doc_id]["title"],
                     "text": self.docs[doc_id]["text"],
-                    "url": self.docs[doc_id].get("url", ""),  # Add default for 'url'
+                    "url": self.docs[doc_id].get("url", ""),  # Default for 'url'
                 }
             )
 
         return docs_retrieved
 
+
     def run_chatbot(self, message, chat_history=None):
         if chat_history is None:
             chat_history = []
 
+        # Define a system prompt
+        system_prompt = (
+            "You are a highly knowledgeable assistant specializing in technical and medical topics. "
+            "Answer queries concisely but provide enough detail to be informative. Ensure responses are "
+            "fact-based and professional in tone."
+        )
+
+        # Combine the system prompt with the user message
+        full_message = f"{system_prompt}\n\nUser: {message}"
+
         # Generate search queries, if any
         response = co.chat(
-            message=message,
+            message=full_message,
             model="command-r-plus",
             search_queries_only=True,
             chat_history=chat_history,
@@ -145,14 +149,14 @@ class Vectorstore:
 
             # Use document chunks to respond
             response = co.chat_stream(
-                message=message,
+                message=full_message,
                 model="command-r-plus",
                 documents=documents,
                 chat_history=chat_history,
             )
         else:
             response = co.chat_stream(
-                message=message,
+                message=full_message,
                 model="command-r-plus",
                 chat_history=chat_history,
             )
