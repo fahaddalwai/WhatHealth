@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAG Web App</title>
+    <title>Chat Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,15 +35,9 @@
             border-radius: 5px;
             cursor: pointer;
             text-align: center;
-            display: block;
-            width: 100%;
-            margin-top: 15px;
         }
         .button:hover {
             background-color: #0056b3;
-        }
-        .hidden {
-            display: none;
         }
         .chat-box {
             border: 1px solid #ddd;
@@ -58,6 +51,7 @@
         .chat-input {
             display: flex;
             gap: 10px;
+            margin-top: 15px;
         }
         .chat-input input {
             flex-grow: 1;
@@ -69,17 +63,9 @@
 </head>
 <body>
     <header>
-        <h1>RAG Web App</h1>
+        <h1>RAG Web App - Chat</h1>
     </header>
-    <main id="upload-stage">
-        <h2>Upload Your Data</h2>
-        <form id="upload-form">
-            <input type="file" id="file-input"  required />
-            <button type="submit" class="button">Upload</button>
-        </form>
-        <p id="upload-status"></p>
-    </main>
-    <main id="chat-stage" class="hidden">
+    <main>
         <h2>Chat Interface</h2>
         <div id="chat-box" class="chat-box"></div>
         <div class="chat-input">
@@ -89,43 +75,10 @@
     </main>
 
     <script>
-        const uploadForm = document.getElementById('upload-form');
-        const fileInput = document.getElementById('file-input');
-        const uploadStatus = document.getElementById('upload-status');
-        const uploadStage = document.getElementById('upload-stage');
-        const chatStage = document.getElementById('chat-stage');
         const chatBox = document.getElementById('chat-box');
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
 
-        // Upload File and Transition to Chat
-        uploadForm.onsubmit = async (e) => {
-            e.preventDefault();
-            uploadStatus.textContent = "Uploading file...";
-            const formData = new FormData();
-            formData.append('file', fileInput.files[0]);
-
-            try {
-                const response = await fetch('/api/upload/', {
-                    method: 'POST',
-                    body: formData,
-                });
-                const data = await response.json();
-                if (response.ok) {
-                    uploadStatus.textContent = data.message || "File uploaded successfully!";
-                    setTimeout(() => {
-                        uploadStage.classList.add('hidden');
-                        chatStage.classList.remove('hidden');
-                    }, 1000);
-                } else {
-                    uploadStatus.textContent = `Error: ${data.detail || 'Failed to upload file'}`;
-                }
-            } catch (error) {
-                uploadStatus.textContent = `Error: ${error.message}`;
-            }
-        };
-
-        // Handle Chat
         sendBtn.onclick = async () => {
             const userMessage = userInput.value.trim();
             if (!userMessage) return;
