@@ -4,15 +4,19 @@ import hnswlib
 from typing import List, Dict
 from unstructured.partition.html import partition_html
 from unstructured.chunking.title import chunk_by_title
+import os
+from dotenv import load_dotenv
 
-co = cohere.Client("AnPnuFiUEcnWT4POFYHq3S2UOKDbGZv03E82yVhZ")
+load_dotenv()
+COHERE_API_KEY = os.getenv("COHERE_API_KEY")
+co = cohere.Client(COHERE_API_KEY)
 
 class Vectorstore:
     def __init__(self):
         self.docs = []
         self.docs_embs = []
-        self.retrieve_top_k = 10
-        self.rerank_top_k = 3
+        self.retrieve_top_k = 50
+        self.rerank_top_k = 5
         self.idx = None
         self.docs_len = 0
 
@@ -121,10 +125,12 @@ class Vectorstore:
 
         # Define a system prompt
         system_prompt = (
-            "You are a highly knowledgeable assistant specializing in technical and medical topics. "
-            "Answer queries concisely but provide enough detail to be informative. Ensure responses are "
-            "fact-based and professional in tone."
+            "You are a health assistant answering user's questions using the provided health data that is already available in your document dataset. "
+            "Your role is to accurately extract insights and provide fact-based answers based on this document and also answer the users questions whatever they may be as accurately as possible "
+            "When answering, prioritize precision and use available document to support your claims. "
+            "For example, if the user asks about calorie burn trends, analyze available data and provide exact numbers."
         )
+
 
         # Combine the system prompt with the user message
         full_message = f"{system_prompt}\n\nUser: {message}"
@@ -140,14 +146,16 @@ class Vectorstore:
         search_queries = []
         for query in response.search_queries:
             search_queries.append(query.text)
+            
 
         # If there are search queries, retrieve the documents
         if search_queries:
             documents = []
             for query in search_queries:
-                documents.extend(self.retrieve(query))
+                retrieved_docs = self.retrieve(query)
+                documents.extend(retrieved_docs)
+                print(f"Retrieved documents for query '{query}': {retrieved_docs}")
 
-            # Use document chunks to respond
             response = co.chat_stream(
                 message=full_message,
                 model="command-r-plus",
