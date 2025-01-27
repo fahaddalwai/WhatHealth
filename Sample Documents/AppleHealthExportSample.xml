@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HealthData [
+<!-- HealthKit Export Version: 13 -->
+<!ELEMENT HealthData (ExportDate,Me,(Record|Correlation|Workout|ActivitySummary|ClinicalRecord|Audiogram|VisionPrescription)*)>
+<!ATTLIST HealthData
+  locale CDATA #REQUIRED
+>
+<!ELEMENT ExportDate EMPTY>
+<!ATTLIST ExportDate
+  value CDATA #REQUIRED
+>
+<!ELEMENT Me EMPTY>
+<!ATTLIST Me
+  HKCharacteristicTypeIdentifierDateOfBirth                   CDATA #REQUIRED
+  HKCharacteristicTypeIdentifierBiologicalSex                 CDATA #REQUIRED
+  HKCharacteristicTypeIdentifierBloodType                     CDATA #REQUIRED
+  HKCharacteristicTypeIdentifierFitzpatrickSkinType           CDATA #REQUIRED
+  HKCharacteristicTypeIdentifierCardioFitnessMedicationsUse   CDATA #REQUIRED
+>
+<!ELEMENT Record ((MetadataEntry|HeartRateVariabilityMetadataList)*)>
+<!ATTLIST Record
+  type          CDATA #REQUIRED
+  unit          CDATA #IMPLIED
+  value         CDATA #IMPLIED
+  sourceName    CDATA #REQUIRED
+  sourceVersion CDATA #IMPLIED
+  device        CDATA #IMPLIED
+  creationDate  CDATA #IMPLIED
+  startDate     CDATA #REQUIRED
+  endDate       CDATA #REQUIRED
+>
+<!-- Note: Any Records that appear as children of a correlation also appear as top-level records in this document. -->
+<!ELEMENT Correlation ((MetadataEntry|Record)*)>
+<!ATTLIST Correlation
+  type          CDATA #REQUIRED
+  sourceName    CDATA #REQUIRED
+  sourceVersion CDATA #IMPLIED
+  device        CDATA #IMPLIED
+  creationDate  CDATA #IMPLIED
+  startDate     CDATA #REQUIRED
+  endDate       CDATA #REQUIRED
+>
+<!ELEMENT Workout ((MetadataEntry|WorkoutEvent|WorkoutRoute|WorkoutStatistics)*)>
+<!ATTLIST Workout
+  workoutActivityType   CDATA #REQUIRED
+  duration              CDATA #IMPLIED
+  durationUnit          CDATA #IMPLIED
+  totalDistance         CDATA #IMPLIED
+  totalDistanceUnit     CDATA #IMPLIED
+  totalEnergyBurned     CDATA #IMPLIED
+  totalEnergyBurnedUnit CDATA #IMPLIED
+  sourceName            CDATA #REQUIRED
+  sourceVersion         CDATA #IMPLIED
+  device                CDATA #IMPLIED
+  creationDate          CDATA #IMPLIED
+  startDate             CDATA #REQUIRED
+  endDate               CDATA #REQUIRED
+>
+<!ELEMENT WorkoutActivity ((MetadataEntry)*)>
+<!ATTLIST WorkoutActivity
+  uuid                 CDATA #REQUIRED
+  startDate            CDATA #REQUIRED
+  endDate              CDATA #IMPLIED
+  duration             CDATA #IMPLIED
+  durationUnit         CDATA #IMPLIED
+>
+<!ELEMENT WorkoutEvent ((MetadataEntry)*)>
+<!ATTLIST WorkoutEvent
+  type                 CDATA #REQUIRED
+  date                 CDATA #REQUIRED
+  duration             CDATA #IMPLIED
+  durationUnit         CDATA #IMPLIED
+>
+<!ELEMENT WorkoutStatistics EMPTY>
+<!ATTLIST WorkoutStatistics
+  type                 CDATA #REQUIRED
+  startDate            CDATA #REQUIRED
+  endDate              CDATA #REQUIRED
+  average              CDATA #IMPLIED
+  minimum              CDATA #IMPLIED
+  maximum              CDATA #IMPLIED
+  sum                  CDATA #IMPLIED
+  unit                 CDATA #IMPLIED
+>
+<!ELEMENT WorkoutRoute ((MetadataEntry|FileReference)*)>
+<!ATTLIST WorkoutRoute
+  sourceName    CDATA #REQUIRED
+  sourceVersion CDATA #IMPLIED
+  device        CDATA #IMPLIED
+  creationDate  CDATA #IMPLIED
+  startDate     CDATA #REQUIRED
+  endDate       CDATA #REQUIRED
+>
+<!ELEMENT FileReference EMPTY>
+<!ATTLIST FileReference
+  path CDATA #REQUIRED
+>
+<!ELEMENT ActivitySummary EMPTY>
+<!ATTLIST ActivitySummary
+  dateComponents           CDATA #IMPLIED
+  activeEnergyBurned       CDATA #IMPLIED
+  activeEnergyBurnedGoal   CDATA #IMPLIED
+  activeEnergyBurnedUnit   CDATA #IMPLIED
+  appleMoveTime            CDATA #IMPLIED
+  appleMoveTimeGoal        CDATA #IMPLIED
+  appleExerciseTime        CDATA #IMPLIED
+  appleExerciseTimeGoal    CDATA #IMPLIED
+  appleStandHours          CDATA #IMPLIED
+  appleStandHoursGoal      CDATA #IMPLIED
+>
+<!ELEMENT MetadataEntry EMPTY>
+<!ATTLIST MetadataEntry
+  key   CDATA #REQUIRED
+  value CDATA #REQUIRED
+>
+<!-- Note: Heart Rate Variability records captured by Apple Watch may include an associated list of instantaneous beats-per-minute readings. -->
+<!ELEMENT HeartRateVariabilityMetadataList (InstantaneousBeatsPerMinute*)>
+<!ELEMENT InstantaneousBeatsPerMinute EMPTY>
+<!ATTLIST InstantaneousBeatsPerMinute
+  bpm  CDATA #REQUIRED
+  time CDATA #REQUIRED
+>
+<!ELEMENT ClinicalRecord EMPTY>
+<!ATTLIST ClinicalRecord
+  type              CDATA #REQUIRED
+  identifier        CDATA #REQUIRED
+  sourceName        CDATA #REQUIRED
+  sourceURL         CDATA #REQUIRED
+  fhirVersion       CDATA #REQUIRED
+  receivedDate      CDATA #REQUIRED
+  resourceFilePath  CDATA #REQUIRED
+>
+<!ELEMENT Audiogram ((MetadataEntry|SensitivityPoint)*)>
+<!ATTLIST Audiogram
+  type          CDATA #REQUIRED
+  sourceName    CDATA #REQUIRED
+  sourceVersion CDATA #IMPLIED
+  device        CDATA #IMPLIED
+  creationDate  CDATA #IMPLIED
+  startDate     CDATA #REQUIRED
+  endDate       CDATA #REQUIRED
+>
+<!ELEMENT SensitivityPoint EMPTY>
+<!ATTLIST SensitivityPoint
+  frequencyValue   CDATA #REQUIRED
+  frequencyUnit    CDATA #REQUIRED
+  leftEarValue     CDATA #IMPLIED
+  leftEarUnit      CDATA #IMPLIED
+  rightEarValue    CDATA #IMPLIED
+  rightEarUnit     CDATA #IMPLIED
+>
+<!ELEMENT VisionPrescription ((RightEye|LeftEye|Attachment|MetadataEntry)*)>
+<!ATTLIST VisionPrescription
+  type             CDATA #REQUIRED
+  dateIssued       CDATA #REQUIRED
+  expirationDate   CDATA #IMPLIED
+  brand            CDATA #IMPLIED
+>
+<!ELEMENT RightEye EMPTY>
+<!ATTLIST RightEye
+  sphere           CDATA #IMPLIED
+  sphereUnit       CDATA #IMPLIED
+  cylinder         CDATA #IMPLIED
+  cylinderUnit     CDATA #IMPLIED
+  axis             CDATA #IMPLIED
+  axisUnit         CDATA #IMPLIED
+  add              CDATA #IMPLIED
+  addUnit          CDATA #IMPLIED
+  vertex           CDATA #IMPLIED
+  vertexUnit       CDATA #IMPLIED
+  prismAmount      CDATA #IMPLIED
+  prismAmountUnit  CDATA #IMPLIED
+  prismAngle       CDATA #IMPLIED
+  prismAngleUnit   CDATA #IMPLIED
+  farPD            CDATA #IMPLIED
+  farPDUnit        CDATA #IMPLIED
+  nearPD           CDATA #IMPLIED
+  nearPDUnit       CDATA #IMPLIED
+  baseCurve        CDATA #IMPLIED
+  baseCurveUnit    CDATA #IMPLIED
+  diameter         CDATA #IMPLIED
+  diameterUnit     CDATA #IMPLIED
+>
+<!ELEMENT LeftEye EMPTY>
+<!ATTLIST LeftEye
+  sphere           CDATA #IMPLIED
+  sphereUnit       CDATA #IMPLIED
+  cylinder         CDATA #IMPLIED
+  cylinderUnit     CDATA #IMPLIED
+  axis             CDATA #IMPLIED
+  axisUnit         CDATA #IMPLIED
+  add              CDATA #IMPLIED
+  addUnit          CDATA #IMPLIED
+  vertex           CDATA #IMPLIED
+  vertexUnit       CDATA #IMPLIED
+  prismAmount      CDATA #IMPLIED
+  prismAmountUnit  CDATA #IMPLIED
+  prismAngle       CDATA #IMPLIED
+  prismAngleUnit   CDATA #IMPLIED
+  farPD            CDATA #IMPLIED
+  farPDUnit        CDATA #IMPLIED
+  nearPD           CDATA #IMPLIED
+  nearPDUnit       CDATA #IMPLIED
+  baseCurve        CDATA #IMPLIED
+  baseCurveUnit    CDATA #IMPLIED
+  diameter         CDATA #IMPLIED
+  diameterUnit     CDATA #IMPLIED
+>
+<!ELEMENT Attachment EMPTY>
+<!ATTLIST Attachment
+  identifier       CDATA #IMPLIED
+>
+]>
+<HealthData locale="en_US">
+ <ExportDate value="2024-12-04 16:50:11 -0600"/>
+ <Me HKCharacteristicTypeIdentifierDateOfBirth="2003-02-25" HKCharacteristicTypeIdentifierBiologicalSex="HKBiologicalSexMale" HKCharacteristicTypeIdentifierBloodType="HKBloodTypeNotSet" HKCharacteristicTypeIdentifierFitzpatrickSkinType="HKFitzpatrickSkinTypeNotSet" HKCharacteristicTypeIdentifierCardioFitnessMedicationsUse="None"/>
+ <Record type="HKQuantityTypeIdentifierHeight" sourceName="Health" sourceVersion="15.4.1" unit="ft" creationDate="2022-06-20 06:26:53 -0600" startDate="2022-06-20 06:26:52 -0600" endDate="2022-06-20 06:26:52 -0600" value="5.8399"/>
+ <Record type="HKQuantityTypeIdentifierBodyMass" sourceName="Health" sourceVersion="15.4.1" unit="lb" creationDate="2022-06-20 06:26:53 -0600" startDate="2022-06-20 06:26:52 -0600" endDate="2022-06-20 06:26:52 -0600" value="171.961"/>
+ <Record type="HKQuantityTypeIdentifierBodyMass" sourceName="Health" sourceVersion="16.0" unit="lb" creationDate="2022-12-11 07:15:09 -0600" startDate="2022-12-11 07:15:00 -0600" endDate="2022-12-11 07:15:00 -0600" value="152.119">
+  <MetadataEntry key="HKWasUserEntered" value="1"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierBodyMass" sourceName="Health" sourceVersion="16.0" unit="lb" creationDate="2022-12-11 07:15:24 -0600" startDate="2022-11-19 07:15:00 -0600" endDate="2022-11-19 07:15:00 -0600" value="153.221">
+  <MetadataEntry key="HKWasUserEntered" value="1"/>
+ </Record>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="15.4.1" device="&lt;&lt;HKDevice: 0x3003bd040&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:15.4.1&gt;" unit="count" creationDate="2022-06-20 14:21:51 -0600" startDate="2022-06-20 14:10:49 -0600" endDate="2022-06-20 14:14:46 -0600" value="37"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="16.0" device="&lt;&lt;HKDevice: 0x3003c5220&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:16.0&gt;" unit="count" creationDate="2023-03-06 02:33:45 -0600" startDate="2023-03-06 02:20:36 -0600" endDate="2023-03-06 02:25:59 -0600" value="106"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="16.0" device="&lt;&lt;HKDevice: 0x3003c5220&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:16.0&gt;" unit="count" creationDate="2023-03-06 04:08:46 -0600" startDate="2023-03-06 04:02:27 -0600" endDate="2023-03-06 04:03:31 -0600" value="94"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="16.0" device="&lt;&lt;HKDevice: 0x3003c5220&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:16.0&gt;" unit="count" creationDate="2023-03-06 04:22:25 -0600" startDate="2023-03-06 04:11:22 -0600" endDate="2023-03-06 04:21:21 -0600" value="690"/>
+ 
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-19 15:10:17 -0600" startDate="2023-12-19 14:59:15 -0600" endDate="2023-12-19 15:04:20 -0600" value="52"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 00:31:43 -0600" startDate="2023-12-20 00:20:40 -0600" endDate="2023-12-20 00:27:36 -0600" value="31"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 01:34:03 -0600" startDate="2023-12-20 01:22:21 -0600" endDate="2023-12-20 01:22:47 -0600" value="25"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 04:25:33 -0600" startDate="2023-12-20 04:15:08 -0600" endDate="2023-12-20 04:25:09 -0600" value="176"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 04:38:21 -0600" startDate="2023-12-20 04:25:09 -0600" endDate="2023-12-20 04:25:27 -0600" value="27"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 05:13:52 -0600" startDate="2023-12-20 05:02:58 -0600" endDate="2023-12-20 05:12:41 -0600" value="197"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 05:24:53 -0600" startDate="2023-12-20 05:13:30 -0600" endDate="2023-12-20 05:15:22 -0600" value="47"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 05:35:45 -0600" startDate="2023-12-20 05:24:43 -0600" endDate="2023-12-20 05:27:43 -0600" value="105"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 05:54:34 -0600" startDate="2023-12-20 05:43:31 -0600" endDate="2023-12-20 05:43:34 -0600" value="4"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 06:21:16 -0600" startDate="2023-12-20 06:11:00 -0600" endDate="2023-12-20 06:20:56 -0600" value="36"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 06:31:17 -0600" startDate="2023-12-20 06:21:04 -0600" endDate="2023-12-20 06:29:28 -0600" value="203"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 06:54:05 -0600" startDate="2023-12-20 06:43:57 -0600" endDate="2023-12-20 06:50:20 -0600" value="67"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 07:07:00 -0600" startDate="2023-12-20 06:56:52 -0600" endDate="2023-12-20 07:06:21 -0600" value="87"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 07:18:42 -0600" startDate="2023-12-20 07:07:39 -0600" endDate="2023-12-20 07:15:08 -0600" value="69"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 07:34:58 -0600" startDate="2023-12-20 07:23:56 -0600" endDate="2023-12-20 07:30:43 -0600" value="70"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 07:50:01 -0600" startDate="2023-12-20 07:38:38 -0600" endDate="2023-12-20 07:42:04 -0600" value="190"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 08:06:12 -0600" startDate="2023-12-20 07:55:09 -0600" endDate="2023-12-20 08:01:41 -0600" value="145"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 08:27:17 -0600" startDate="2023-12-20 08:16:28 -0600" endDate="2023-12-20 08:16:46 -0600" value="34"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 10:06:10 -0600" startDate="2023-12-20 09:55:08 -0600" endDate="2023-12-20 09:55:10 -0600" value="6"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 10:42:37 -0600" startDate="2023-12-20 10:30:38 -0600" endDate="2023-12-20 10:31:14 -0600" value="43"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 12:23:23 -0600" startDate="2023-12-20 12:11:17 -0600" endDate="2023-12-20 12:17:16 -0600" value="105"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 12:38:17 -0600" startDate="2023-12-20 12:23:26 -0600" endDate="2023-12-20 12:33:19 -0600" value="264"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 12:45:25 -0600" startDate="2023-12-20 12:33:27 -0600" endDate="2023-12-20 12:40:20 -0600" value="309"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 13:11:58 -0600" startDate="2023-12-20 12:54:56 -0600" endDate="2023-12-20 13:03:56 -0600" value="396"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 13:22:40 -0600" startDate="2023-12-20 13:11:38 -0600" endDate="2023-12-20 13:12:21 -0600" value="36"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-20 14:23:36 -0600" startDate="2023-12-20 14:13:28 -0600" endDate="2023-12-20 14:13:41 -0600" value="26"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 01:20:55 -0600" startDate="2023-12-21 01:10:12 -0600" endDate="2023-12-21 01:18:57 -0600" value="68"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 05:49:56 -0600" startDate="2023-12-21 05:38:53 -0600" endDate="2023-12-21 05:39:26 -0600" value="33"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 06:08:12 -0600" startDate="2023-12-21 05:58:00 -0600" endDate="2023-12-21 05:58:02 -0600" value="4"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 08:09:10 -0600" startDate="2023-12-21 07:56:11 -0600" endDate="2023-12-21 08:03:44 -0600" value="209"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 08:29:11 -0600" startDate="2023-12-21 08:18:44 -0600" endDate="2023-12-21 08:28:22 -0600" value="150"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 08:41:45 -0600" startDate="2023-12-21 08:29:13 -0600" endDate="2023-12-21 08:38:08 -0600" value="65"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 08:55:10 -0600" startDate="2023-12-21 08:44:07 -0600" endDate="2023-12-21 08:45:13 -0600" value="19"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 09:20:51 -0600" startDate="2023-12-21 09:09:46 -0600" endDate="2023-12-21 09:15:33 -0600" value="145"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 10:19:07 -0600" startDate="2023-12-21 10:08:04 -0600" endDate="2023-12-21 10:10:19 -0600" value="67"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 10:44:24 -0600" startDate="2023-12-21 10:34:13 -0600" endDate="2023-12-21 10:37:24 -0600" value="168"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 11:01:00 -0600" startDate="2023-12-21 10:46:50 -0600" endDate="2023-12-21 10:49:05 -0600" value="70"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 11:12:24 -0600" startDate="2023-12-21 11:00:23 -0600" endDate="2023-12-21 11:00:25 -0600" value="4"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 11:38:37 -0600" startDate="2023-12-21 11:19:48 -0600" endDate="2023-12-21 11:24:10 -0600" value="98"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 13:24:00 -0600" startDate="2023-12-21 13:13:15 -0600" endDate="2023-12-21 13:16:21 -0600" value="94"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 13:39:37 -0600" startDate="2023-12-21 13:27:26 -0600" endDate="2023-12-21 13:27:48 -0600" value="29"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 14:07:22 -0600" startDate="2023-12-21 13:56:19 -0600" endDate="2023-12-21 13:56:57 -0600" value="45"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 14:18:04 -0600" startDate="2023-12-21 14:07:01 -0600" endDate="2023-12-21 14:07:03 -0600" value="2"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 14:40:33 -0600" startDate="2023-12-21 14:30:25 -0600" endDate="2023-12-21 14:35:51 -0600" value="39"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-21 16:18:30 -0600" startDate="2023-12-21 14:53:06 -0600" endDate="2023-12-21 14:53:16 -0600" value="29"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 01:35:09 -0600" startDate="2023-12-22 01:24:57 -0600" endDate="2023-12-22 01:31:24 -0600" value="107"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 02:31:56 -0600" startDate="2023-12-22 02:14:13 -0600" endDate="2023-12-22 02:15:35 -0600" value="60"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 03:47:44 -0600" startDate="2023-12-22 03:36:41 -0600" endDate="2023-12-22 03:36:43 -0600" value="2"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 05:04:40 -0600" startDate="2023-12-22 04:50:50 -0600" endDate="2023-12-22 04:50:53 -0600" value="8"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 05:57:07 -0600" startDate="2023-12-22 05:46:04 -0600" endDate="2023-12-22 05:46:06 -0600" value="10"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 06:09:57 -0600" startDate="2023-12-22 05:58:54 -0600" endDate="2023-12-22 06:03:39 -0600" value="118"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 06:24:38 -0600" startDate="2023-12-22 06:13:36 -0600" endDate="2023-12-22 06:16:24 -0600" value="79"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 06:55:15 -0600" startDate="2023-12-22 06:42:49 -0600" endDate="2023-12-22 06:45:09 -0600" value="97"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 08:11:53 -0600" startDate="2023-12-22 07:59:17 -0600" endDate="2023-12-22 08:04:38 -0600" value="319"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 08:26:12 -0600" startDate="2023-12-22 08:15:23 -0600" endDate="2023-12-22 08:25:17 -0600" value="304"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 08:40:23 -0600" startDate="2023-12-22 08:27:39 -0600" endDate="2023-12-22 08:29:31 -0600" value="59"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 08:51:12 -0600" startDate="2023-12-22 08:41:02 -0600" endDate="2023-12-22 08:43:32 -0600" value="72"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 09:06:19 -0600" startDate="2023-12-22 08:53:16 -0600" endDate="2023-12-22 08:58:34 -0600" value="175"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 09:47:15 -0600" startDate="2023-12-22 09:32:21 -0600" endDate="2023-12-22 09:33:32 -0600" value="82"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 09:59:57 -0600" startDate="2023-12-22 09:43:11 -0600" endDate="2023-12-22 09:45:43 -0600" value="114"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 10:10:39 -0600" startDate="2023-12-22 09:59:04 -0600" endDate="2023-12-22 10:06:32 -0600" value="301"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 10:21:35 -0600" startDate="2023-12-22 10:11:30 -0600" endDate="2023-12-22 10:11:43 -0600" value="15"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 10:41:17 -0600" startDate="2023-12-22 10:31:04 -0600" endDate="2023-12-22 10:31:25 -0600" value="34"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 11:17:07 -0600" startDate="2023-12-22 11:04:07 -0600" endDate="2023-12-22 11:12:54 -0600" value="161"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 11:28:45 -0600" startDate="2023-12-22 11:17:16 -0600" endDate="2023-12-22 11:27:18 -0600" value="352"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 11:39:30 -0600" startDate="2023-12-22 11:27:18 -0600" endDate="2023-12-22 11:35:42 -0600" value="362"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 11:48:07 -0600" startDate="2023-12-22 11:37:55 -0600" endDate="2023-12-22 11:46:09 -0600" value="156"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 13:43:16 -0600" startDate="2023-12-22 13:30:10 -0600" endDate="2023-12-22 13:39:41 -0600" value="397"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 14:28:33 -0600" startDate="2023-12-22 14:13:55 -0600" endDate="2023-12-22 14:15:21 -0600" value="36"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 15:08:56 -0600" startDate="2023-12-22 14:55:24 -0600" endDate="2023-12-22 14:55:27 -0600" value="2"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 16:03:58 -0600" startDate="2023-12-22 15:46:25 -0600" endDate="2023-12-22 15:53:53 -0600" value="70"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 16:19:13 -0600" startDate="2023-12-22 16:04:22 -0600" endDate="2023-12-22 16:09:25 -0600" value="175"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-22 17:18:16 -0600" startDate="2023-12-22 16:27:52 -0600" endDate="2023-12-22 16:29:33 -0600" value="53"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 01:36:02 -0600" startDate="2023-12-23 01:25:50 -0600" endDate="2023-12-23 01:26:51 -0600" value="52"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 01:55:56 -0600" startDate="2023-12-23 01:44:31 -0600" endDate="2023-12-23 01:46:56 -0600" value="8"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 06:08:34 -0600" startDate="2023-12-23 05:57:59 -0600" endDate="2023-12-23 06:08:00 -0600" value="251"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 06:19:10 -0600" startDate="2023-12-23 06:08:08 -0600" endDate="2023-12-23 06:08:15 -0600" value="14"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 07:35:13 -0600" startDate="2023-12-23 07:19:08 -0600" endDate="2023-12-23 07:28:20 -0600" value="488"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 07:45:59 -0600" startDate="2023-12-23 07:35:00 -0600" endDate="2023-12-23 07:43:53 -0600" value="75"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 07:57:26 -0600" startDate="2023-12-23 07:45:27 -0600" endDate="2023-12-23 07:55:21 -0600" value="872"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 08:10:02 -0600" startDate="2023-12-23 07:55:49 -0600" endDate="2023-12-23 08:05:48 -0600" value="696"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 08:21:10 -0600" startDate="2023-12-23 08:05:48 -0600" endDate="2023-12-23 08:15:46 -0600" value="269"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 08:26:52 -0600" startDate="2023-12-23 08:15:49 -0600" endDate="2023-12-23 08:20:42 -0600" value="405"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 08:54:48 -0600" startDate="2023-12-23 08:42:03 -0600" endDate="2023-12-23 08:52:05 -0600" value="732"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 09:06:45 -0600" startDate="2023-12-23 08:52:05 -0600" endDate="2023-12-23 09:01:43 -0600" value="276"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 09:13:14 -0600" startDate="2023-12-23 09:02:11 -0600" endDate="2023-12-23 09:12:12 -0600" value="435"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 09:24:38 -0600" startDate="2023-12-23 09:13:13 -0600" endDate="2023-12-23 09:22:08 -0600" value="536"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 09:57:49 -0600" startDate="2023-12-23 09:46:46 -0600" endDate="2023-12-23 09:46:49 -0600" value="11"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 10:20:12 -0600" startDate="2023-12-23 10:09:09 -0600" endDate="2023-12-23 10:15:23 -0600" value="565"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 11:45:27 -0600" startDate="2023-12-23 11:35:15 -0600" endDate="2023-12-23 11:41:04 -0600" value="479"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 12:19:06 -0600" startDate="2023-12-23 12:07:18 -0600" endDate="2023-12-23 12:12:29 -0600" value="299"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 13:27:08 -0600" startDate="2023-12-23 13:16:05 -0600" endDate="2023-12-23 13:25:59 -0600" value="352"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 14:42:43 -0600" startDate="2023-12-23 14:31:40 -0600" endDate="2023-12-23 14:35:22 -0600" value="160"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-23 15:06:23 -0600" startDate="2023-12-23 14:56:18 -0600" endDate="2023-12-23 14:57:17 -0600" value="46"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-24 02:27:30 -0600" startDate="2023-12-24 02:16:26 -0600" endDate="2023-12-24 02:16:33 -0600" value="13"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-24 03:13:28 -0600" startDate="2023-12-24 02:59:19 -0600" endDate="2023-12-24 03:01:04 -0600" value="47"/>
+ <Record type="HKQuantityTypeIdentifierStepCount" sourceName="John Doe’s iPhone" sourceVersion="17.1.2" device="&lt;&lt;HKDevice: 0x3003b88c0&gt;, name:iPhone, manufacturer:Apple Inc., model:iPhone, hardware:iPhone14,5, software:17.1.2&gt;" unit="count" creationDate="2023-12-24 05:21:29 -0600" startDate="2023-12-24 05:07:35 -0600" endDate="2023-12-24 05:13:17 -0600" value="25"/>
+ ry dateComponents="2023-12-01" activeEnergyBurned="271.083" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-02" activeEnergyBurned="120.433" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-03" activeEnergyBurned="210.597" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-04" activeEnergyBurned="96.484" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-05" activeEnergyBurned="207.4" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-06" activeEnergyBurned="321.052" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-07" activeEnergyBurned="477.761" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-08" activeEnergyBurned="293.147" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-09" activeEnergyBurned="242.349" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-10" activeEnergyBurned="94.091" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-11" activeEnergyBurned="365.954" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-12" activeEnergyBurned="500.31" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-13" activeEnergyBurned="155.131" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-14" activeEnergyBurned="58.146" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-15" activeEnergyBurned="42.154" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-16" activeEnergyBurned="118.577" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-17" activeEnergyBurned="65.131" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-18" activeEnergyBurned="118.182" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-19" activeEnergyBurned="33.053" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-20" activeEnergyBurned="63.13" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-21" activeEnergyBurned="33.577" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-22" activeEnergyBurned="79.647" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-23" activeEnergyBurned="182.072" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-24" activeEnergyBurned="65.933" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-25" activeEnergyBurned="70.179" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-26" activeEnergyBurned="156.539" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-27" activeEnergyBurned="47.32" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-28" activeEnergyBurned="75.621" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-29" activeEnergyBurned="27.417" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-30" activeEnergyBurned="16.075" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2023-12-31" activeEnergyBurned="29.566" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-01" activeEnergyBurned="54.9" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-02" activeEnergyBurned="29.09" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-03" activeEnergyBurned="128.358" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-04" activeEnergyBurned="184.4" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-05" activeEnergyBurned="49.3538" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-06" activeEnergyBurned="56.423" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-07" activeEnergyBurned="43.112" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-08" activeEnergyBurned="496.953" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-09" activeEnergyBurned="45.026" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-10" activeEnergyBurned="509.856" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-11" activeEnergyBurned="44.715" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-12" activeEnergyBurned="249.082" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-13" activeEnergyBurned="36.877" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-14" activeEnergyBurned="21.314" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-15" activeEnergyBurned="34.183" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-16" activeEnergyBurned="50.846" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-17" activeEnergyBurned="268.639" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-18" activeEnergyBurned="36.337" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-19" activeEnergyBurned="13.978" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-20" activeEnergyBurned="63.69" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-21" activeEnergyBurned="70.823" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-22" activeEnergyBurned="46.335" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-23" activeEnergyBurned="67.812" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-24" activeEnergyBurned="35.496" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-25" activeEnergyBurned="65.386" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-26" activeEnergyBurned="29.509" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-27" activeEnergyBurned="104.571" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-28" activeEnergyBurned="45.402" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-29" activeEnergyBurned="55.215" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-30" activeEnergyBurned="117.772" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-01-31" activeEnergyBurned="93.028" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-01" activeEnergyBurned="52.394" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-02" activeEnergyBurned="174.794" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-03" activeEnergyBurned="146.758" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-04" activeEnergyBurned="208.789" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-05" activeEnergyBurned="246.615" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-06" activeEnergyBurned="210.809" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-07" activeEnergyBurned="57.192" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-08" activeEnergyBurned="63.2333" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-09" activeEnergyBurned="36.985" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-10" activeEnergyBurned="57.019" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-11" activeEnergyBurned="164.759" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-12" activeEnergyBurned="57.5846" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-13" activeEnergyBurned="68.063" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-14" activeEnergyBurned="165.819" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-15" activeEnergyBurned="122.348" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-16" activeEnergyBurned="71.347" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-17" activeEnergyBurned="44.108" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-18" activeEnergyBurned="7.252" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-19" activeEnergyBurned="60.664" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-02-20" activeEnergyBurned="7.678" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-08-31" activeEnergyBurned="258.325" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-01" activeEnergyBurned="122.028" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-02" activeEnergyBurned="43.86" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-03" activeEnergyBurned="376.046" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-04" activeEnergyBurned="137.717" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-05" activeEnergyBurned="359.438" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-06" activeEnergyBurned="135.007" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-07" activeEnergyBurned="250.133" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-08" activeEnergyBurned="25.326" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-09" activeEnergyBurned="233.384" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-10" activeEnergyBurned="178.835" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-11" activeEnergyBurned="21.368" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-12" activeEnergyBurned="36.887" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-13" activeEnergyBurned="197.665" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-14" activeEnergyBurned="224.855" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-15" activeEnergyBurned="181.517" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-16" activeEnergyBurned="281.724" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-17" activeEnergyBurned="161.776" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-18" activeEnergyBurned="121.599" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-19" activeEnergyBurned="291.184" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-20" activeEnergyBurned="274.306" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-21" activeEnergyBurned="174.176" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-22" activeEnergyBurned="110.962" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-23" activeEnergyBurned="183.086" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-24" activeEnergyBurned="91.889" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-25" activeEnergyBurned="269.884" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-26" activeEnergyBurned="51.33" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-27" activeEnergyBurned="298.532" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-28" activeEnergyBurned="167.006" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-29" activeEnergyBurned="180.31" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-09-30" activeEnergyBurned="346.646" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-01" activeEnergyBurned="75.294" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-02" activeEnergyBurned="72.613" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-03" activeEnergyBurned="114.189" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-04" activeEnergyBurned="278.775" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-05" activeEnergyBurned="43.53" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-06" activeEnergyBurned="132.132" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-07" activeEnergyBurned="408.89" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-08" activeEnergyBurned="31.7373" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-09" activeEnergyBurned="184.99" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-10" activeEnergyBurned="149.677" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-11" activeEnergyBurned="225.326" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-12" activeEnergyBurned="413.008" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-13" activeEnergyBurned="152.692" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-14" activeEnergyBurned="135.059" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-15" activeEnergyBurned="128.954" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-16" activeEnergyBurned="123.772" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-17" activeEnergyBurned="113.635" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-18" activeEnergyBurned="341.036" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-19" activeEnergyBurned="141.877" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-20" activeEnergyBurned="221.571" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-21" activeEnergyBurned="292.189" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-22" activeEnergyBurned="46.064" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-23" activeEnergyBurned="235.766" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-24" activeEnergyBurned="98.356" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-25" activeEnergyBurned="193.599" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-26" activeEnergyBurned="45.053" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-27" activeEnergyBurned="318.253" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-28" activeEnergyBurned="91.453" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-29" activeEnergyBurned="186.74" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-30" activeEnergyBurned="30.73" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-10-31" activeEnergyBurned="294.954" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-01" activeEnergyBurned="155.314" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-02" activeEnergyBurned="324.511" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-03" activeEnergyBurned="59.466" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-04" activeEnergyBurned="164.253" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-05" activeEnergyBurned="140.046" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-06" activeEnergyBurned="61.248" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-07" activeEnergyBurned="153.334" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-08" activeEnergyBurned="93.939" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-09" activeEnergyBurned="530.728" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-10" activeEnergyBurned="48.629" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-11" activeEnergyBurned="224.015" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-12" activeEnergyBurned="139.75" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-13" activeEnergyBurned="143.84" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-14" activeEnergyBurned="158.884" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-15" activeEnergyBurned="88.761" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-16" activeEnergyBurned="364.708" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-17" activeEnergyBurned="25.166" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-18" activeEnergyBurned="24.675" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-19" activeEnergyBurned="249.302" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-20" activeEnergyBurned="196.876" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-21" activeEnergyBurned="78.713" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-22" activeEnergyBurned="108.191" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-23" activeEnergyBurned="388.487" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-24" activeEnergyBurned="74.524" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-25" activeEnergyBurned="195.415" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-26" activeEnergyBurned="306.333" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-27" activeEnergyBurned="9.71" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-28" activeEnergyBurned="231.872" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-29" activeEnergyBurned="85.448" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-11-30" activeEnergyBurned="37.579" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-12-01" activeEnergyBurned="6.118" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-12-02" activeEnergyBurned="192.737" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-12-03" activeEnergyBurned="44.563" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+ <ActivitySummary dateComponents="2024-12-04" activeEnergyBurned="197.601" activeEnergyBurnedGoal="250" activeEnergyBurnedUnit="Cal" appleMoveTime="0" appleMoveTimeGoal="0" appleExerciseTime="0" appleExerciseTimeGoal="0" appleStandHours="0" appleStandHoursGoal="0"/>
+</HealthData>
