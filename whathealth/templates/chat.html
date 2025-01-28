@@ -2,78 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
-        header {
-            background-color: #007BFF;
-            color: white;
-            padding: 15px 20px;
-            text-align: center;
-        }
-        main {
-            margin: 20px auto;
-            max-width: 600px;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1, h2 {
-            text-align: center;
-        }
-        .button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
-        .chat-box {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 10px;
-            height: 300px;
-            overflow-y: auto;
-            background-color: #f9f9f9;
-        }
-        .chat-input {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .chat-input input {
-            flex-grow: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <header>
-        <h1>RAG Web App - Chat</h1>
+<body class="bg-blue-50 min-h-screen">
+    <header class="bg-blue-600 text-white py-4 shadow-md">
+        <h1 class="text-2xl font-semibold text-center">RAG Web App - Chat</h1>
     </header>
-    <main>
-        <h2>Chat Interface</h2>
-        <div id="chat-box" class="chat-box"></div>
-        <div class="chat-input">
-            <input type="text" id="user-input" placeholder="Ask a question..." />
-            <button id="send-btn" class="button">Send</button>
+    <main class="max-w-2xl mx-auto mt-10 bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-xl font-semibold text-center text-gray-700">Chat Interface</h2>
+        <div id="chat-box" class="mt-6 bg-gray-100 border border-gray-300 rounded-lg h-80 p-4 overflow-y-auto shadow-inner"></div>
+        <div class="flex items-center mt-4 gap-4">
+            <input 
+                type="text" 
+                id="user-input" 
+                placeholder="Ask a question..." 
+                class="flex-grow px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button 
+                id="send-btn" 
+                class="bg-blue-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-700 transition">
+                Send
+            </button>
         </div>
     </main>
-
     <script>
         const chatBox = document.getElementById('chat-box');
         const userInput = document.getElementById('user-input');
@@ -83,26 +36,23 @@
             const userMessage = userInput.value.trim();
             if (!userMessage) return;
 
-            // Display user message
-            chatBox.innerHTML += `<div><strong>You:</strong> ${userMessage}</div>`;
+            chatBox.innerHTML += `<div class="text-right"><strong>You:</strong> ${userMessage}</div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
 
             try {
                 const response = await fetch('/api/chat/', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ query: userMessage }),
                 });
                 const data = await response.json();
                 if (response.ok) {
-                    chatBox.innerHTML += `<div><strong>Bot:</strong> ${data.response}</div>`;
+                    chatBox.innerHTML += `<div class="text-left"><strong>Bot:</strong> ${data.response}</div>`;
                 } else {
-                    chatBox.innerHTML += `<div><strong>Bot:</strong> Error fetching response</div>`;
+                    chatBox.innerHTML += `<div class="text-left"><strong>Bot:</strong> Error fetching response</div>`;
                 }
             } catch (error) {
-                chatBox.innerHTML += `<div><strong>Bot:</strong> Error: ${error.message}</div>`;
+                chatBox.innerHTML += `<div class="text-left"><strong>Bot:</strong> Error: ${error.message}</div>`;
             }
 
             userInput.value = '';

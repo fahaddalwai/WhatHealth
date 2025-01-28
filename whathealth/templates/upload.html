@@ -2,65 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
-        header {
-            background-color: #007BFF;
-            color: white;
-            padding: 15px 20px;
-            text-align: center;
-        }
-        main {
-            margin: 20px auto;
-            max-width: 600px;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1, h2 {
-            text-align: center;
-        }
-        .button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            display: block;
-            width: 100%;
-            margin-top: 15px;
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
-        #upload-status {
-            margin-top: 10px;
-            text-align: center;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <header>
-        <h1>RAG Web App - Upload</h1>
+<body class="bg-blue-50 min-h-screen">
+    <header class="bg-blue-600 text-white py-4 shadow-md">
+        <h1 class="text-2xl font-semibold text-center">RAG Web App - Upload</h1>
     </header>
-    <main>
-        <h2>Upload Your Data</h2>
-        <form id="upload-form">
-            <input type="file" id="file-input" required />
-            <button type="submit" class="button">Upload</button>
+    <main class="max-w-2xl mx-auto mt-10 bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-xl font-semibold text-center text-gray-700">Upload Your Data</h2>
+        <form id="upload-form" class="mt-6 flex flex-col gap-4">
+            <input 
+                type="file" 
+                id="file-input" 
+                required 
+                class="w-full p-4 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button 
+                type="submit" 
+                class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">
+                Upload
+            </button>
         </form>
-        <p id="upload-status"></p>
+        <p id="upload-status" class="mt-4 text-center text-gray-600"></p>
     </main>
-
     <script>
         const uploadForm = document.getElementById('upload-form');
         const fileInput = document.getElementById('file-input');
@@ -80,7 +46,6 @@
                 const data = await response.json();
                 if (response.ok) {
                     uploadStatus.textContent = data.message || "File uploaded successfully!";
-                    // Redirect to the chat page after successful upload
                     setTimeout(() => {
                         window.location.href = "/chat";
                     }, 1000);
