@@ -6,22 +6,19 @@
     <title>Upload Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-blue-50 min-h-screen">
-    <header class="bg-blue-600 text-white py-4 shadow-md">
-        <h1 class="text-2xl font-semibold text-center">RAG Web App - Upload</h1>
+<body class="bg-purple-100 min-h-screen flex flex-col items-center">
+    <header class="bg-[#bf77f6] text-white py-4 w-full shadow-md text-center">
+        <h1 class="text-2xl font-semibold">RAG Web App - Upload</h1>
     </header>
-    <main class="max-w-2xl mx-auto mt-10 bg-white rounded-lg shadow-lg p-6">
-        <h2 class="text-xl font-semibold text-center text-gray-700">Upload Your Data</h2>
-        <form id="upload-form" class="mt-6 flex flex-col gap-4">
-            <input 
-                type="file" 
-                id="file-input" 
-                required 
-                class="w-full p-4 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button 
-                type="submit" 
-                class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">
+    <main class="w-full max-w-2xl mx-auto mt-6 bg-white rounded-lg shadow-lg p-6 flex flex-col items-center">
+        <h2 class="text-xl font-semibold text-center text-gray-700 mb-4">Upload Your Data</h2>
+        <form id="upload-form" class="mt-6 flex flex-col gap-4 w-full">
+            <div id="drop-zone" class="w-full h-40 flex items-center justify-center border-2 border-dashed border-[#bf77f6] rounded-lg bg-gray-100 text-gray-600 text-center cursor-pointer">
+                Drag & Drop your file here or click to upload
+            </div>
+            <input type="file" id="file-input" class="hidden" required />
+            <p id="file-name" class="text-gray-700"></p>
+            <button type="submit" id="upload-btn" class="bg-gray-400 text-white px-6 py-3 rounded-lg shadow-md transition cursor-not-allowed" disabled>
                 Upload
             </button>
         </form>
@@ -30,7 +27,41 @@
     <script>
         const uploadForm = document.getElementById('upload-form');
         const fileInput = document.getElementById('file-input');
+        const dropZone = document.getElementById('drop-zone');
         const uploadStatus = document.getElementById('upload-status');
+        const fileNameDisplay = document.getElementById('file-name');
+        const uploadBtn = document.getElementById('upload-btn');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-purple-700', 'bg-purple-100');
+        });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('border-purple-700', 'bg-purple-100');
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-purple-700', 'bg-purple-100');
+            fileInput.files = e.dataTransfer.files;
+            updateFileName();
+        });
+
+        fileInput.addEventListener('change', updateFileName);
+
+        function updateFileName() {
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.textContent = `Selected file: ${fileInput.files[0].name}`;
+                uploadBtn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                uploadBtn.classList.add('bg-[#bf77f6]', 'hover:bg-purple-700', 'cursor-pointer');
+                uploadBtn.disabled = false;
+            } else {
+                fileNameDisplay.textContent = "";
+                uploadBtn.classList.add('bg-gray-400', 'cursor-not-allowed');
+                uploadBtn.classList.remove('bg-[#bf77f6]', 'hover:bg-purple-700', 'cursor-pointer');
+                uploadBtn.disabled = true;
+            }
+        }
 
         uploadForm.onsubmit = async (e) => {
             e.preventDefault();
