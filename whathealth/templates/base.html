@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatHealth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex min-h-screen">
+
+    <!-- Sidebar Navigation -->
+    <aside class="bg-[#bf77f6] text-white w-64 flex flex-col items-center py-6 space-y-6 shadow-lg">
+        <h2 class="text-2xl font-bold">WhatHealth</h2>
+        <nav class="flex flex-col w-full">
+            <a href="/chat" class="px-6 py-3 text-lg font-semibold hover:bg-purple-600 transition rounded-lg text-center">💬 Chat</a>
+            <a href="/charts" class="px-6 py-3 text-lg font-semibold hover:bg-purple-600 transition rounded-lg text-center">📊 Charts</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col items-center justify-center p-6">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>

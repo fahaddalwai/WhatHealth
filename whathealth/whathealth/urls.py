@@ -9,6 +9,8 @@ urlpatterns = [
     # This line makes the root URL (/) serve the upload template
     path("", TemplateView.as_view(template_name="upload.html"), name="home"),
 
+    path("charts/", TemplateView.as_view(template_name="charts.html"), name="charts"),
+
     # For reference, your other paths
     path("upload/", TemplateView.as_view(template_name="upload.html"), name="upload"),
     path("chat/", TemplateView.as_view(template_name="chat.html"), name="chat"),
