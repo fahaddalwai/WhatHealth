@@ -55,12 +55,12 @@
             }
     
             // Extract dynamic axis titles from the first row
-            const xAxisTitle = rows[1][0];  // First column name
-            const yAxisTitle = rows[1][1];  // Second column name
+            const xAxisTitle = rows[0][0];  // First column name
+            const yAxisTitle = rows[0][1];  // Second column name
     
             const labels = [];
             const values = [];
-            for (let i = 2; i < rows.length; i++) {
+            for (let i = 1; i < rows.length; i++) {
                 if (rows[i].length === 2) {
                     labels.push(rows[i][0]);  // X-axis values
                     values.push(parseFloat(rows[i][1]));  // Y-axis values
