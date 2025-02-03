@@ -180,3 +180,67 @@ class Vectorstore:
                 final_chat_history = event.response.chat_history
 
         return chatbot_response, final_chat_history
+    
+    def chartcsv(self, message, chat_history=None):
+        if chat_history is None:
+            chat_history = []
+
+        # Define a system prompt
+        system_prompt = (
+            "You are a health assistant answering user's questions using the provided health data that is already available in your document dataset. "
+            "Your role is to accurately extract data fields which are relevant to the user query and return in CSV format. "
+            "When answering, return in csv format containing 2 columns ONLY."
+            "For example, if the user asks about calorie burn trends, analyze available data and provide exact numbers in CSV format containing 2 columns like this:"
+            "Day,Calorie",
+            "02-22-2024,250"
+        )
+
+
+        # Combine the system prompt with the user message
+        full_message = f"{system_prompt}\n\nUser: {message}"
+
+        # Generate search queries, if any
+        response = co.chat(
+            message=full_message,
+            model="command-r-plus",
+            search_queries_only=True,
+            chat_history=chat_history,
+        )
+
+        search_queries = []
+        for query in response.search_queries:
+            search_queries.append(query.text)
+            
+
+        # If there are search queries, retrieve the documents
+        if search_queries:
+            documents = []
+            for query in search_queries:
+                retrieved_docs = self.retrieve(query)
+                documents.extend(retrieved_docs)
+                print(f"Retrieved documents for query '{query}': {retrieved_docs}")
+
+            response = co.chat_stream(
+                message=full_message,
+                model="command-r-plus",
+                documents=documents,
+                chat_history=chat_history,
+            )
+        else:
+            response = co.chat_stream(
+                message=full_message,
+                model="command-r-plus",
+                chat_history=chat_history,
+            )
+
+        # Parse the response into structured output
+        chatbot_response = ""
+        final_chat_history = chat_history
+
+        for event in response:
+            if event.event_type == "text-generation":
+                chatbot_response += event.text
+            if event.event_type == "stream-end":
+                final_chat_history = event.response.chat_history
+        print(chatbot_response)
+        return chatbot_response, final_chat_history
