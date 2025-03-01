@@ -6,6 +6,7 @@ from unstructured.partition.html import partition_html
 from unstructured.chunking.title import chunk_by_title
 import os
 from dotenv import load_dotenv
+import re
 
 load_dotenv()
 COHERE_API_KEY = os.getenv("COHERE_API_KEY")
@@ -244,3 +245,70 @@ class Vectorstore:
                 final_chat_history = event.response.chat_history
         print(chatbot_response)
         return chatbot_response, final_chat_history
+
+    import re
+
+    def chart_html(self, message, chat_history=None):
+        if chat_history is None:
+            chat_history = []
+
+        system_prompt = (
+            "You are a health assistant answering user's questions using the provided health data that is already available in your document dataset. "
+            "Your role is to accurately extract data fields which are relevant to the user query and return a complete HTML snippet that renders a line chart using Chart.js. "
+            "The HTML snippet should include a <canvas> element with id 'healthChart' and a corresponding <script> block that initializes the chart with dynamic data. "
+            "Ensure that the chart is fully functional when inserted into a webpage, with dynamic axis titles and data arrays. "
+            "Return only the necessary HTML code snippet (canvas and script), without <html>, <head>, or <body> tags."
+        )
+
+        full_message = f"{system_prompt}\n\nUser: {message}"
+
+        # Generate search queries (if any)
+        response = co.chat(
+            message=full_message,
+            model="command-r-plus",
+            search_queries_only=True,
+            chat_history=chat_history,
+        )
+        search_queries = [query.text for query in response.search_queries]
+
+        if search_queries:
+            documents = []
+            for query in search_queries:
+                retrieved_docs = self.retrieve(query)
+                documents.extend(retrieved_docs)
+                print(f"Retrieved documents for query '{query}': {retrieved_docs}")
+            response = co.chat_stream(
+                message=full_message,
+                model="command-r-plus",
+                documents=documents,
+                chat_history=chat_history,
+            )
+        else:
+            response = co.chat_stream(
+                message=full_message,
+                model="command-r-plus",
+                chat_history=chat_history,
+            )
+
+        chatbot_response = ""
+        final_chat_history = chat_history
+
+        for event in response:
+            if event.event_type == "text-generation":
+                chatbot_response += event.text
+            if event.event_type == "stream-end":
+                final_chat_history = event.response.chat_history
+
+        # 🔹 Strip unwanted Markdown formatting (```html ... ```)
+        chatbot_response = chatbot_response.replace("```html", "").replace("```", "").strip()
+
+        # 🔹 Extract only the <canvas> and <script> sections
+        canvas_match = re.search(r"<canvas[^>]*>.*?</canvas>", chatbot_response, re.DOTALL)
+        script_match = re.search(r"<script[^>]*>.*?</script>", chatbot_response, re.DOTALL)
+
+        if canvas_match and script_match:
+            cleaned_html = canvas_match.group(0) + script_match.group(0)
+        else:
+            cleaned_html = "<p class='text-red-500'>Error: No valid chart generated.</p>"
+
+        return cleaned_html, final_chat_history

@@ -65,13 +65,12 @@ class ChartView(APIView):
             if not query:
                 return Response({"detail": "Query is required."}, status=400)
 
-            # Log inputs for debugging
             logger.debug(f"Query received: {query}")
             logger.debug(f"Chat history: {chat_history}")
 
-            chatbot_response, updated_chat_history = vectorstore.chartcsv(query, chat_history)
+            # Call the new dynamic chart method
+            chatbot_response, updated_chat_history = vectorstore.chart_html(query, chat_history)
 
-            # Log outputs for debugging
             logger.debug(f"Chatbot response: {chatbot_response}")
             logger.debug(f"Updated chat history: {updated_chat_history}")
 
