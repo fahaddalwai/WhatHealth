@@ -5,20 +5,22 @@
 </p>
 
 <p id="description">
-    WhatHealth is a health analytics platform that allows users to upload health data, query insights using AI, and visualize trends dynamically with interactive charts. Built with Django, Cohere AI, and Chart.js, it provides a seamless experience for users looking to extract valuable insights from their health records.
+    WhatHealth is a health analytics platform that allows you to upload your Apple Health Data and query insights using AI, and visualize trends dynamically with interactive charts. Built with Django, Cohere AI, and Chart.js.
 </p>
 
 <h2>🧐 Features</h2>
 
 Here are some of the best features of WhatHealth:
 
-*   **AI-powered Chatbot:** Uses Cohere AI to analyze health-related queries.
+*   **AI-powered Chatbot:** Uses Cohere AI to analyze queries from users Apple Health Data.
 *   **Dynamic Chart Generation:** Converts queries into interactive charts using Chart.js.
 *   **File Upload & Processing:** Users can upload health data files for analysis.
 *   **Hybrid Search RAG:** Uses BM25 and ChromaDB embeddings for optimized retrieval.
 *   **Secure & Scalable Backend:** Built using Django and REST API principles.
 
 <h2>🛠️ Installation Steps:</h2>
+
+To use your own health data, look at this guide from [Apple](https://support.apple.com/en-gb/guide/iphone/iph5ede58c3d/ios) on how to export it in XML format. Just to save some time, I have provided a sample XML in the repo!
 
 <p>1. Clone the repository</p>
 
